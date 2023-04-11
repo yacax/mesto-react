@@ -5,7 +5,7 @@ const ImagePopup = ({ selectedCard, onClose }) => {
 
   const handleOverlayClose = (event) => {
     if (event.target === event.currentTarget) {
-      onClose();      
+      onClose();
     }
   };
 
@@ -18,10 +18,7 @@ const ImagePopup = ({ selectedCard, onClose }) => {
 
     if (isOpen) {
       document.addEventListener('keydown', handleEscClose);
-    } else {
-      document.removeEventListener('keydown', handleEscClose);
     }
-
     return () => {
       document.removeEventListener('keydown', handleEscClose);
     };

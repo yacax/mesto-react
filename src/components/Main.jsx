@@ -6,27 +6,22 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, ...props }) => {
 
   const [cards, setCards] = useState([]);
 
-  const [ren] = useState(0);
+  const [userName, setUserName] = useState("");
+  const [userDescription, setUserDescription] = useState("");
+  const [userAvatar, setUserAvatar] = useState("");
 
-  const useUserData = () => {
-    const [userName, setUserName] = useState('');
-    const [userDescription, setUserDescription] = useState('');
-    const [userAvatar, setUserAvatar] = useState('');
-
-    useEffect(() => {
-      api.getUserData().then(({ name, about, avatar }) => {
+  useEffect(() => {
+    api
+      .getUserData()
+      .then(({ name, about, avatar }) => {
         if (userName !== name) setUserName(name);
         if (userDescription !== about) setUserDescription(about);
         if (userAvatar !== avatar) setUserAvatar(avatar);
-      }).catch((error) => {
-        console.log(error)
       })
-    }, [userName, userDescription, userAvatar]);
-
-    return { userName, userDescription, userAvatar };
-  };
-
-  const { userName, userDescription, userAvatar } = useUserData();
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   useEffect(() => {
     api
@@ -35,28 +30,28 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, ...props }) => {
       .catch((error) => {
         console.log(error)
       })
-  }, [ren])
+  }, [])
 
   return (
     <main>
       <section className="profile">
         <div className="profile__avatar-container" onClick={onEditAvatar}>
-          <div className="profile__avatar-edit" ></div>
+          <div className="profile__avatar-edit" />
           <img src={userAvatar} alt="Фотография пользователя." className="profile__avatar" />
         </div>
 
         <div className="profile__info">
           <h1 className="profile__title">{userName} </h1>
-          <button className="profile__edit-button" type="button" onClick={onEditProfile}></button>
+          <button className="profile__edit-button" type="button" onClick={onEditProfile} />
           <p className="profile__subtitle">{userDescription}</p>
         </div>
-        <button className="profile__add-button" type="button" onClick={onAddPlace}  ></button>
+        <button className="profile__add-button" type="button" onClick={onAddPlace} />
       </section>
 
       <section className="elements" aria-label="Галлерея мест пользователя">
         {
           cards.map(card => {
-            return (<Card key={card._id} card={card} onCardClick={props.onCardClick} />)
+            return (<Card key={card._id} card={card} onCardClick={props.onCardClick}/>)
           })
         }
       </section>

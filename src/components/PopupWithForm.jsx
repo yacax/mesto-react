@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-  const PopupWithForm = ({ name, title, children, isOpen, onClose }) => {
+const PopupWithForm = ({ name, title, children, isOpen, onClose, buttonText = 'Сохранить' }) => {
 
   const handleOverlayClose = (event) => {
     if (event.target === event.currentTarget) {
@@ -8,19 +8,21 @@ import React, { useEffect } from 'react';
     }
   };
 
-  const handleEscClose = (event) => {
-    if (event.key === 'Escape') {
-      onClose();
-    }
-  };
-
   useEffect(() => {
+    const handleEscClose = (event) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
     if (isOpen) {
       document.addEventListener('keydown', handleEscClose);
-    } else {
-      document.removeEventListener('keydown', handleEscClose);
     }
-  }, [isOpen]);
+    return () => {
+      document.removeEventListener('keydown', handleEscClose);
+    };
+
+  }, [isOpen, onClose]);
 
   return (
     <div
@@ -28,10 +30,16 @@ import React, { useEffect } from 'react';
       onClick={handleOverlayClose}
     >
       <div className="popup__container">
-        <button className="popup__close-button" type="button" onClick={onClose}></button>
-        <form className={`popup__form popup__form_name_${name}`} noValidate>
+        <button className="popup__close-button" type="button" onClick={onClose} />
+        <form className={`popup__form popup__form_name_${name}`}>
           <h2 className="popup__title">{title}</h2>
-          {children}         
+          {children}
+          <input
+            type="submit"
+            className="popup__save-button"
+            name="popup-save-button"
+            value={buttonText}
+          />
         </form>
       </div>
     </div>

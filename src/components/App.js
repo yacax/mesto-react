@@ -45,7 +45,7 @@ const App = () => {
         break;
     }
   }
-  
+
   return (
     <div className="body">
       <div className="page">
@@ -63,7 +63,8 @@ const App = () => {
         name="profile"
         title="Редактировать профиль"
         isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}>
+        onClose={closeAllPopups}
+      >
 
         <input
           type="text"
@@ -75,7 +76,7 @@ const App = () => {
           maxLength="40"
           id="profile-name-input"
         />
-        <span className="popup__error-text profile-name-input-error"></span>
+        <span className="popup__error-text profile-name-input-error"/>
         <input
           type="text"
           className="popup__input popup__input_name_subtitle"
@@ -86,15 +87,7 @@ const App = () => {
           maxLength="200"
           id="profile-description-input"
         />
-
-        <span className="popup__error-text profile-description-input-error"></span>
-
-        <input
-          type="submit"
-          className="popup__save-button"
-          name="save"
-          value="Сохранить"
-        />
+        <span className="popup__error-text profile-description-input-error"/>
 
       </PopupWithForm>
 
@@ -102,8 +95,9 @@ const App = () => {
         name="place"
         title="Новое место"
         isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}>
-
+        onClose={closeAllPopups}
+        buttonText="Создать"
+      >
         <input
           type="text"
           className="popup__input popup__input_name_title"
@@ -114,7 +108,7 @@ const App = () => {
           maxLength="30"
           id="place-name-input"
         />
-        <span className="popup__error-text place-name-input-error"></span>
+        <span className="popup__error-text place-name-input-error"/>
 
         <input
           type="url"
@@ -124,19 +118,15 @@ const App = () => {
           id="place-url-input"
           required
         />
-        <span className="popup__error-text place-url-input-error"></span>
-        <input
-          type="submit"
-          className="popup__save-button"
-          name="popup-save-button"
-          value="Создать" />
+        <span className="popup__error-text place-url-input-error"/>
       </PopupWithForm>
 
       <PopupWithForm
         name="avatar"
         title="Обновить аватар"
         isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}>
+        onClose={closeAllPopups}
+      >
 
         <input
           type="url"
@@ -146,20 +136,14 @@ const App = () => {
           id="place-url-avatar-input"
           required
         />
-        <span className="popup__error-text place-url-avatar-input-error"></span>
-        <input
-          type="submit"
-          className="popup__save-button"
-          name="popup-save-button"
-          value="Создать"
-        />
+        <span className="popup__error-text place-url-avatar-input-error"/>
       </PopupWithForm>
 
       <ImagePopup
         name="card"
         selectedCard={selectedCard}
-        onClose={closeAllPopups}>
-      </ImagePopup>
+        onClose={closeAllPopups}
+      />
 
     </div>
   );
