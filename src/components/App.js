@@ -18,31 +18,24 @@ const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState({ popupIsOpen: false });
-
-  const [currentUser, setCurrentUser] = useState({});
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
 
   const [cards, setCards] = useState([]);
+  const [selectedCard, setSelectedCard] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
-    api
-      .getInitialCards()
-      .then((initialCards) => setCards(initialCards))
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
-
-  useEffect(() => {
-    api
-      .getUserData()
-      .then((res) => {
-        setCurrentUser(res);
-      })
+    Promise.all([
+      api.getInitialCards(),
+      api.getUserData()
+    ]).then(([initialCards, userData]) => {
+      setCards(initialCards)
+      setCurrentUser(userData)
+    })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [])
 
   function handleCardDelete(card) {
 
@@ -79,8 +72,10 @@ const App = () => {
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
   };
+
   const handleCardClick = (card) => {
-    setSelectedCard({ ...card, popupIsOpen: true });
+    setSelectedCard(card);
+    setIsImagePopupOpen(true);
   };
 
   const closeAllPopups = () => {
@@ -94,8 +89,8 @@ const App = () => {
       case isEditAvatarPopupOpen:
         setIsEditAvatarPopupOpen(false);
         break;
-      case selectedCard.popupIsOpen:
-        setSelectedCard({ ...selectedCard, popupIsOpen: false });
+      case isImagePopupOpen:
+        setIsImagePopupOpen(false);
         break;
       default:
         break;
@@ -103,7 +98,6 @@ const App = () => {
   }
 
   function handleUpdateUser(user) {
-
     api
       .patchUserData(user.name, user.about)
       .then((newUser) => {
@@ -145,7 +139,9 @@ const App = () => {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="body">
         <div className="page">
+
           <Header />
+
           <Main
             onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
@@ -156,18 +152,30 @@ const App = () => {
             setCards={setCards}
             onCardDelete={handleCardDelete}
           />
+
           <Footer />
+
         </div>
 
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser} />
 
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit} />
 
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar} />
 
         <ImagePopup
           name="card"
           selectedCard={selectedCard}
+          isOpen={isImagePopupOpen}
           onClose={closeAllPopups}
         />
 

@@ -1,6 +1,14 @@
 import React, { useEffect } from 'react';
 
-const PopupWithForm = ({ name, title, children, isOpen, onClose, buttonText = 'Сохранить', onSubmit }) => {
+const PopupWithForm = (
+  { name,
+    title,
+    children,
+    isOpen,
+    onClose,
+    buttonText = 'Сохранить',
+    onSubmit
+  }) => {
 
   const handleOverlayClose = (event) => {
     if (event.target === event.currentTarget) {
@@ -30,7 +38,10 @@ const PopupWithForm = ({ name, title, children, isOpen, onClose, buttonText = '�
       onClick={handleOverlayClose}
     >
       <div className="popup__container">
-        <button className="popup__close-button" type="button" onClick={onClose} />
+        <button
+          className="popup__close-button"
+          type="button"
+          onClick={onClose} />
         <form className={`popup__form popup__form_name_${name}`} onSubmit={onSubmit}>
           <h2 className="popup__title">{title}</h2>
           {children}

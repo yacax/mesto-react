@@ -14,13 +14,13 @@ export function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       setName(currentUser.name);
       setAbout(currentUser.about);
     }
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
-  function handleName(e) {
+  function handleChangeName(e) {
     setName(e.target.value);
   }
 
-  function handleAbout(e) {
+  function handleChangeAbout(e) {
     setAbout(e.target.value);
   }
 
@@ -53,7 +53,7 @@ export function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         maxLength="40"
         id="profile-name-input"
         value={name}
-        onChange={handleName}
+        onChange={handleChangeName}
       />
 
       <span className="popup__error-text profile-name-input-error" />
@@ -68,7 +68,7 @@ export function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         maxLength="200"
         id="profile-description-input"
         value={about}
-        onChange={handleAbout}
+        onChange={handleChangeAbout}
       />
 
       <span className="popup__error-text profile-description-input-error" />

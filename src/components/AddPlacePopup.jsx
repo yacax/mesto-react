@@ -1,26 +1,29 @@
 import PopupWithForm from "./PopupWithForm"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
 
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
 
+  useEffect(() => {
+    setName('');
+    setLink('');
+  }, [isOpen])
+
   function handleSubmit(e) {
     e.preventDefault();
     onAddPlace({
       name,
-      link: link,
+      link,
     });
-    setName('');
-    setLink('');
   }
 
-  function handleName(e) {
+  function handleChangeName(e) {
     setName(e.target.value);
   }
 
-  function handleLink(e) {
+  function handleChangeLink(e) {
     setLink(e.target.value);
   }
 
@@ -43,7 +46,7 @@ export function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         maxLength="30"
         id="place-name-input"
         value={name}
-        onChange={handleName}
+        onChange={handleChangeName}
       />
       <span className="popup__error-text place-name-input-error" />
 
@@ -55,7 +58,7 @@ export function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         id="place-url-input"
         required
         value={link}
-        onChange={handleLink}
+        onChange={handleChangeLink}
       />
       <span className="popup__error-text place-url-input-error" />
     </PopupWithForm>
